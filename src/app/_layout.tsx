@@ -1,4 +1,5 @@
 import { ThemeProvider } from "@/components/theme-provider";
+import { HealthProvider } from "@/components/health-context";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Tabs as WebTabs } from "expo-router/tabs";
 import { NativeTabs } from "expo-router/unstable-native-tabs";
@@ -7,7 +8,9 @@ import { Platform, useWindowDimensions } from "react-native";
 export default function Layout() {
   return (
     <ThemeProvider>
-      <TabsLayout />
+      <HealthProvider>
+        <TabsLayout />
+      </HealthProvider>
     </ThemeProvider>
   );
 }
@@ -43,15 +46,29 @@ function WebTabsLayout() {
       <WebTabs.Screen
         name="index"
         options={{
-          title: "Home",
-          tabBarIcon: (props) => <MaterialIcons {...props} name="home" />,
+          title: "Dashboard",
+          tabBarIcon: (props) => <MaterialIcons {...props} name="dashboard" />,
         }}
       />
       <WebTabs.Screen
-        name="info"
+        name="water"
         options={{
-          title: "Info",
-          tabBarIcon: (props) => <MaterialIcons {...props} name="info" />,
+          title: "Water",
+          tabBarIcon: (props) => <MaterialIcons {...props} name="local-drink" />,
+        }}
+      />
+      <WebTabs.Screen
+        name="activity"
+        options={{
+          title: "Activity",
+          tabBarIcon: (props) => <MaterialIcons {...props} name="directions-walk" />,
+        }}
+      />
+      <WebTabs.Screen
+        name="sleep"
+        options={{
+          title: "Sleep",
+          tabBarIcon: (props) => <MaterialIcons {...props} name="bedtime" />,
         }}
       />
     </WebTabs>
@@ -62,23 +79,45 @@ function NativeTabsLayout() {
   return (
     <NativeTabs>
       <NativeTabs.Trigger name="index">
-        <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Label>Dashboard</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon
           {...Platform.select({
-            ios: { sf: { default: "house", selected: "house.fill" } },
+            ios: { sf: { default: "chart.line.uptrend.xyaxis", selected: "chart.line.uptrend.xyaxis" } },
             default: {
-              src: <NativeTabs.Trigger.VectorIcon family={MaterialIcons} name="home" />,
+              src: <NativeTabs.Trigger.VectorIcon family={MaterialIcons} name="dashboard" />,
             },
           })}
         />
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="info">
-        <NativeTabs.Trigger.Label>Info</NativeTabs.Trigger.Label>
+      <NativeTabs.Trigger name="water">
+        <NativeTabs.Trigger.Label>Water</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon
           {...Platform.select({
-            ios: { sf: "cursorarrow.rays" },
+            ios: { sf: { default: "drop", selected: "drop.fill" } },
             default: {
-              src: <NativeTabs.Trigger.VectorIcon family={MaterialIcons} name="info" />,
+              src: <NativeTabs.Trigger.VectorIcon family={MaterialIcons} name="local-drink" />,
+            },
+          })}
+        />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="activity">
+        <NativeTabs.Trigger.Label>Activity</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          {...Platform.select({
+            ios: { sf: { default: "figure.walk", selected: "figure.walk" } },
+            default: {
+              src: <NativeTabs.Trigger.VectorIcon family={MaterialIcons} name="directions-walk" />,
+            },
+          })}
+        />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="sleep">
+        <NativeTabs.Trigger.Label>Sleep</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          {...Platform.select({
+            ios: { sf: { default: "moon.zzz", selected: "moon.zzz.fill" } },
+            default: {
+              src: <NativeTabs.Trigger.VectorIcon family={MaterialIcons} name="bedtime" />,
             },
           })}
         />
